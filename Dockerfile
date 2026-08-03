@@ -1,6 +1,9 @@
 # Jellyfin + FileBrowser template for Railway
-# Base: official Jellyfin 10.11.11 image (Debian trixie-slim, runs as root)
-FROM jellyfin/jellyfin:10.11.11
+# Base: official Jellyfin 10.10.7 image (Debian slim, runs as root)
+# NOTE: pinned to 10.10.x. Jellyfin 10.11+ refuses to start when the data
+# path has less than 2 GiB free, which is incompatible with Railway's free
+# tier volume size (500 MB).
+FROM jellyfin/jellyfin:10.10.7
 
 # Install nginx (single public entry point / reverse proxy)
 RUN apt-get update \

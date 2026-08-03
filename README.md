@@ -4,7 +4,7 @@
 
 One-click Jellyfin media server on Railway with a built-in **web file uploader** and **persistent storage**.
 
-- **Jellyfin 10.11.11** — free and open-source media server (movies, TV, music)
+- **Jellyfin 10.10.7** — free and open-source media server (movies, TV, music)
 - **FileBrowser** — upload your media from the browser at `/files`
 - **Persistent volume** — config, metadata and media survive redeploys
 - **nginx** — single public entry point, no configuration needed
@@ -88,6 +88,7 @@ On the **Free** plan the volume is 0.5 GB with a limit of 1 volume per project. 
 ### Limitations
 
 - **CPU transcoding only.** Railway does not offer GPUs, so hardware-accelerated transcoding is unavailable. Clients that support **Direct Play** (the Jellyfin apps, most smart TVs) will stream without transcoding.
+- **Jellyfin pinned to 10.10.x.** Jellyfin 10.11+ requires at least 2 GiB free on the data directory and refuses to start otherwise, which is incompatible with Railway's free-tier volume size (500 MB). 10.10.7 is the newest version without that requirement.
 - **amd64 only.** FileBrowser is bundled as a `linux-amd64` binary (Railway runs amd64).
 - FileBrowser is pinned to `v2.63.23` (the project is archived, but this pinned release keeps working).
 
@@ -184,6 +185,7 @@ En el plan **Free** el volumen es de 0,5 GB con un límite de 1 volumen por proy
 ### Limitaciones
 
 - **Solo transcodificación por CPU.** Railway no ofrece GPUs, así que la transcodificación por hardware no está disponible. Los clientes con **Direct Play** (apps de Jellyfin, la mayoría de smart TVs) reproducirán sin transcodificar.
+- **Jellyfin fijado a 10.10.x.** Jellyfin 10.11+ exige al menos 2 GiB libres en el directorio de datos y se niega a arrancar en caso contrario, algo incompatible con el tamaño del volumen del plan Free de Railway (500 MB). 10.10.7 es la versión más reciente sin ese requisito.
 - **Solo amd64.** FileBrowser se incluye como binario `linux-amd64` (Railway usa amd64).
 - FileBrowser está fijado a `v2.63.23` (el proyecto está archivado, pero esta versión fijada sigue funcionando).
 
