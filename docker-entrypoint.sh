@@ -22,15 +22,33 @@ FILEBROWSER_PORT="8080"
 mkdir -p "${MEDIA_DIR}/Movies" "${MEDIA_DIR}/TV Shows" "${MEDIA_DIR}/Music"
 
 # --- 2. FileBrowser admin password -----------------------------------------
+# FILEBROWSER_PASSWORD wins if set. Otherwise reuse the stored password (so it
+# survives redeploys), or generate one on the very first boot.
 if [ -z "${FILEBROWSER_PASSWORD:-}" ]; then
-    FILEBROWSER_PASSWORD="$(openssl rand -base64 24 | tr -dc 'A-Za-z0-9' | head -c 16)"
-    echo "${FILEBROWSER_PASSWORD}" > "${CONFIG_DIR}/.filebrowser-password"
-    chmod 600 "${CONFIG_DIR}/.filebrowser-password"
-    echo "[entrypoint] FILEBROWSER_PASSWORD not set. Generated one and stored it at ${CONFIG_DIR}/.filebrowser-password"
+    if [ -f "${CONFIG_DIR}/.filebrowser-password" ]; then
+        FILEBROWSER_PASSWORD="$(cat "${CONFIG_DIR}/.filebrowser-password")"
+        echo "[entrypoint] Reusing stored FileBrowser password from ${CONFIG_DIR}/.filebrowser-password"
+    else
+        FILEBROWSER_PASSWORD="$(openssl rand -base64 24 | tr -dc 'A-Za-z0-9' | head -c 16)"
+        echo "${FILEBROWSER_PASSWORD}" > "${CONFIG_DIR}/.filebrowser-password"
+        chmod 600 "${CONFIG_DIR}/.filebrowser-password"
+        echo "[entrypoint] Generated a FileBrowser password and stored it at ${CONFIG_DIR}/.filebrowser-password"
+    fi
 fi
 
-# --- 3. Initialize FileBrowser on first boot (idempotent) -------------------
-if [ ! -f "${FILEBROWSER_DB}" ]; then
+# --- 3. Initialize / sync FileBrowser admin user (idempotent) --------------
+if [ -f "${FILEBROWSER_DB}" ]; then
+    # DB already exists: keep the admin password in sync with FILEBROWSER_PASSWORD
+    if ! filebrowser users update admin --password "${FILEBROWSER_PASSWORD}" \
+        --database "${FILEBROWSER_DB}" \
+        --config "${FILEBROWSER_CONFIG}" 2>/dev/null; then
+        filebrowser users add admin "${FILEBROWSER_PASSWORD}" \
+            --database "${FILEBROWSER_DB}" \
+            --config "${FILEBROWSER_CONFIG}" \
+            --perm.admin
+    fi
+    echo "[entrypoint] FileBrowser admin user 'admin' is up to date."
+else
     echo "[entrypoint] Initializing FileBrowser database..."
     filebrowser config init \
         --database "${FILEBROWSER_DB}" \

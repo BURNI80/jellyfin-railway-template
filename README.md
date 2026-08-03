@@ -74,7 +74,7 @@ When creating a library, point it to the same folders the uploader uses:
 |---|---|---|
 | `PORT` | `8095` | Internal HTTP port. Must stay `8095` (nginx). |
 | `TZ` | `Etc/UTC` | Container timezone. |
-| `FILEBROWSER_PASSWORD` | auto-generated | Password for the FileBrowser `admin` user. |
+| `FILEBROWSER_PASSWORD` | auto-generated | Password for the FileBrowser `admin` user. If not set, a password is generated on first boot and stored in the volume at `/config/.filebrowser-password`. Changing this variable later updates the `admin` password on the next deploy. |
 
 ### Storage
 
@@ -171,7 +171,7 @@ Al crear una biblioteca, apúntala a las mismas carpetas que usa el subidor:
 |---|---|---|
 | `PORT` | `8095` | Puerto HTTP interno. Debe ser `8095` (nginx). |
 | `TZ` | `Etc/UTC` | Zona horaria del contenedor. |
-| `FILEBROWSER_PASSWORD` | autogenerada | Contraseña del usuario `admin` de FileBrowser. |
+| `FILEBROWSER_PASSWORD` | autogenerada | Contraseña del usuario `admin` de FileBrowser. Si no se define, se genera en el primer arranque y se guarda en el volumen en `/config/.filebrowser-password`. Cambiar esta variable más adelante actualiza la contraseña de `admin` en el siguiente deploy. |
 
 ### Almacenamiento
 
