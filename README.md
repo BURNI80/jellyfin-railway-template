@@ -1,6 +1,6 @@
 # Jellyfin on Railway — with web uploader
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/template/b2a183a4-d83e-4baf-86aa-bc23c859f8d1)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/template/jellyfin-self-hosted-media-server-web-up)
 
 One-click Jellyfin media server on Railway with a built-in **web portal** (FileBrowser) for uploading your media, and **persistent storage**.
 
