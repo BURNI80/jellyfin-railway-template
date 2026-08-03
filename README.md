@@ -1,6 +1,6 @@
 # Jellyfin on Railway — with web uploader
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/template/REPLACE_WITH_YOUR_TEMPLATE_ID)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/template/b2a183a4-d83e-4baf-86aa-bc23c859f8d1)
 
 One-click Jellyfin media server on Railway with a built-in **web portal** (FileBrowser) for uploading your media, and **persistent storage**.
 
@@ -9,6 +9,41 @@ One-click Jellyfin media server on Railway with a built-in **web portal** (FileB
 - **Persistent volume** — config, metadata and media survive redeploys
 - **nginx** — single public entry point, no configuration needed
 - **Everything from the browser** — no SSH, no terminal, no extra tools
+
+---
+
+## Table of contents / Índice
+
+- [Quick start (2 minutes)](#quick-start-2-minutes)
+- **English**
+  - [What you get](#what-you-get)
+  - [One-click deploy](#one-click-deploy)
+  - [First run](#first-run)
+  - [The web portal](#the-web-portal)
+  - [Adding libraries in Jellyfin](#adding-libraries-in-jellyfin)
+  - [Connecting from a PC](#connecting-from-a-pc)
+  - [Connecting from mobile](#connecting-from-mobile)
+  - [Environment variables](#environment-variables)
+  - [Storage](#storage)
+  - [Limitations](#limitations)
+  - [Maintenance](#maintenance)
+  - [Troubleshooting](#troubleshooting)
+- **Español**
+  - [Qué incluye](#qué-incluye)
+  - [Despliegue en un clic](#despliegue-en-un-clic)
+  - [Primer arranque](#primer-arranque)
+  - [El portal web](#el-portal-web)
+  - [Añadir bibliotecas en Jellyfin](#añadir-bibliotecas-en-jellyfin)
+  - [Conectar desde un PC](#conectar-desde-un-pc)
+  - [Conectar desde el móvil](#conectar-desde-el-móvil)
+  - [Variables de entorno](#variables-de-entorno)
+  - [Almacenamiento](#almacenamiento)
+  - [Limitaciones](#limitaciones)
+  - [Mantenimiento](#mantenimiento)
+  - [Solución de problemas](#solución-de-problemas)
+- [Creating this template (maintainer)](#creating-this-template-maintainer)
+- [Crear este template (mantenedor)](#crear-este-template-mantenedor)
+- [License](#license)
 
 ---
 
@@ -57,7 +92,7 @@ The portal uses a single `admin` user. Its password is the value of the `FILEBRO
 
 ---
 
-### The web portal — how to use it
+### The web portal
 
 The portal at `/files` is the easiest way to get your media onto the server. Everything happens in the browser.
 
@@ -114,7 +149,7 @@ Optional — the **Jellyfin desktop app** (Windows / macOS / Linux):
 2. On first launch, add your server: enter `https://<your-app>.up.railway.app` and sign in.
 3. The desktop app behaves like the web player but with native shortcuts and windowing.
 
-### Connecting from mobile (Android / iOS)
+### Connecting from mobile
 
 Jellyfin has official apps for phones and tablets:
 
@@ -139,6 +174,8 @@ Notes:
 | `PORT` | `8095` | Internal HTTP port. Must stay `8095` (nginx). |
 | `TZ` | `Etc/UTC` | Container timezone. |
 | `FILEBROWSER_PASSWORD` | auto-generated | Password for the portal `admin` user. If not set, a password is generated on first boot and stored in the volume at `/config/.filebrowser-password`. Changing this variable later updates the `admin` password on the next deploy. |
+
+> In the template these variables are already pre-filled — deploy with zero configuration.
 
 ### Storage
 
@@ -208,7 +245,7 @@ El portal usa un único usuario `admin`. Su contraseña es el valor de la variab
 
 ---
 
-### El portal web — cómo usarlo
+### El portal web
 
 El portal en `/files` es la forma más fácil de meter tu media en el servidor. Todo ocurre en el navegador.
 
@@ -265,7 +302,7 @@ Opcional — la **app de escritorio de Jellyfin** (Windows / macOS / Linux):
 2. En el primer arranque, añade tu servidor: introduce `https://<tu-app>.up.railway.app` e inicia sesión.
 3. La app de escritorio funciona como el reproductor web, pero con accesos rápidos nativos y ventana propia.
 
-### Conectar desde el móvil (Android / iOS)
+### Conectar desde el móvil
 
 Jellyfin tiene apps oficiales para móviles y tablets:
 
@@ -290,6 +327,8 @@ Notas:
 | `PORT` | `8095` | Puerto HTTP interno. Debe ser `8095` (nginx). |
 | `TZ` | `Etc/UTC` | Zona horaria del contenedor. |
 | `FILEBROWSER_PASSWORD` | autogenerada | Contraseña del usuario `admin` del portal. Si no se define, se genera en el primer arranque y se guarda en el volumen en `/config/.filebrowser-password`. Cambiar esta variable más adelante actualiza la contraseña de `admin` en el siguiente deploy. |
+
+> En el template estas variables ya vienen definidas — despliega sin configurar nada.
 
 ### Almacenamiento
 
@@ -333,7 +372,7 @@ To publish this repo as a one-click Railway template:
 1. Push this repo to GitHub (**public**).
 2. Go to [railway.com/templates](https://railway.com/templates) → **New Template**.
 3. Choose the repository and add the service (Railway detects the Dockerfile).
-4. **Variables**: `PORT=8095`, `TZ=Etc/UTC`, `FILEBROWSER_PASSWORD=${{ secret(16) }}`.
+4. **Variables**: `PORT=8095` and `TZ=Etc/UTC` (pre-filled), and `FILEBROWSER_PASSWORD` optional — leave it empty so Railway generates a password per deployment.
 5. **Volume**: create a volume and attach it to the service at `/config`.
 6. **Networking**: generate a public domain (HTTP).
 7. Create the template, copy its ID and replace `REPLACE_WITH_YOUR_TEMPLATE_ID` in the deploy button above.
@@ -345,7 +384,7 @@ Para publicar este repo como template de un clic en Railway:
 1. Sube este repo a GitHub (**público**).
 2. Ve a [railway.com/templates](https://railway.com/templates) → **New Template**.
 3. Elige el repositorio y añade el servicio (Railway detecta el Dockerfile).
-4. **Variables**: `PORT=8095`, `TZ=Etc/UTC`, `FILEBROWSER_PASSWORD=${{ secret(16) }}`.
+4. **Variables**: `PORT=8095` y `TZ=Etc/UTC` (predefinidas), y `FILEBROWSER_PASSWORD` opcional — déjala vacía para que Railway genere una contraseña por despliegue.
 5. **Volumen**: crea un volumen y conéctalo al servicio en `/config`.
 6. **Networking**: genera un dominio público (HTTP).
 7. Crea el template, copia su ID y sustituye `REPLACE_WITH_YOUR_TEMPLATE_ID` en el botón de arriba.
